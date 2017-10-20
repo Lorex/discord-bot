@@ -13,7 +13,9 @@
     "discord.js": "^11.2.1",
     "moment": "^2.19.1",
     "moment-duration-format": "^1.3.0",
+    "node-schedule": "^1.2.5",
     "simple-rcon": "^0.3.1",
-    "srcds-rcon": "^2.2.1"
+    "srcds-rcon": "^2.2.1",
+    "unirest": "^0.5.1"
   }
 }
