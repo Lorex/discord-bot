@@ -153,21 +153,28 @@ client.on('message', m => {
 					break;
 				}
 				unirest.get(`https://mods.factorio.com/api/mods/${cmd[1].split(' ')[1]}`)
-				.type('json')
-				.send()
-				.end(res => {
-					if (res.ok) {
-						m.channel.send(ct.stripIndent`
+					.type('json')
+					.send()
+					.end(res => {
+						if (res.ok) {
+							m.channel.send(ct.stripIndent `
 							模組名稱： ${res.body.title}
 							版本： ${res.body.releases[0].info_json.dependencies[0].split('>= ')[1]}
 							下載數： ${res.body.downloads_count}
 							網址： https://mods.factorio.com/mods/${res.body.owner}/${res.body.name}
 							說明： ${res.body.summary}
 						`)
-					}
-				})
+						}
+					})
 				break;
-
+			case '!cmd':
+				if (m.author == '<@277083376471638016>') {
+					rcon.connect((str) => { console.log(str) });
+					rcon.exec((cmd[1].substring(2, cmd[1].length)), (msg) => {
+						m.channel.send(msg.body);
+					})
+				}
+				break;
 			default:
 				m.channel.send("錯誤：未知的指令");
 				break;
