@@ -6,6 +6,7 @@ const unirest = require('unirest');
 const config = require('./config.json');
 const ct = require('common-tags');
 const schedule = require('node-schedule');
+const axios = require('axios');
 
 
 const client = new Discord.Client();
@@ -32,7 +33,7 @@ client.on('ready', () => {
 })
 
 // main function
-client.on('message', m => {
+client.on('message', async m => {
 	if (m.content.startsWith("!") && (m.author != '<@369553788077342730>')) {
 		console.log(`CMD: ${m.content} from ${m.author.username} in ${m.guild} / ${m.channel.name}`);
 
@@ -46,7 +47,7 @@ client.on('message', m => {
 				console.log()
 				m.channel.send(ct.stripIndent `
 				普羅機器人 v.${config.version}
-				=====================----------------------===========
+				=====================----------------------==========
 				!ping 						檢視與伺服器的連線並回傳延遲
 				!time 						檢視目前時間
 				!status 					檢視 Discord 伺服器狀態
@@ -54,6 +55,7 @@ client.on('message', m => {
 				!wake -t <hh> <mm> <ss> 	鬧鐘功能
 				!dk 						DK 指令
 				!mod -name <模組名稱>			檢視模組資訊
+				!r6							檢視 R6 伺服器狀態
 				`)
 				break;
 
@@ -174,6 +176,10 @@ client.on('message', m => {
 						m.channel.send(msg.body);
 					})
 				}
+				break;
+			case '!r6':
+				const _req = await axios.get('https://game-status-api.ubisoft.com/v1/instances?appIds=e3d5ea9e-50bd-43b7-88bf-39794f4e3d40&fbclid=IwAR2_lwQLvNcX90vIm0F-AboCuo-x5AjyJ9x7yc8_WohWqjvxpxgJZIeaWAA');
+				m.channel.send((_req.data[0].Status === 'Online')?'R6 伺服器上線中。': `Ubisoft 正常發揮中，R6 伺服器已離線，原因：${_req.data[0].Mainrenance}`);
 				break;
 			default:
 				m.channel.send("錯誤：未知的指令");

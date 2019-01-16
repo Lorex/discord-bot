@@ -9,6 +9,7 @@
   "author": "Lorex <ceo@sita.tech>",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "common-tags": "^1.4.0",
     "discord.js": "^11.2.1",
     "moment": "^2.19.1",
